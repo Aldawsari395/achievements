@@ -1,0 +1,21 @@
+.fas {
+  margin-top: 2px;
+  font-size: 18px;
+}
+
+form {
+  background-color: #ebecf1;
+  padding: 15px;
+  border-radius: 0.25rem;
+}
+
+/* @font-face {
+    font-family: "BukraRegular";
+    src: url("fonts/29LT Bukra-Regular.OTF");
+    font-weight: normal;
+    font-style: normal;
+  }
+  
+  div {
+    font-family: "BukraRegular";
+  } */

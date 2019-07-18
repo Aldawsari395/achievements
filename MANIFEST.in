@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include achievements *.css
+recursive-include achievements *.csv
+recursive-include achievements *.html
+recursive-include achievements *.ico
+recursive-include achievements *.js
+recursive-include achievements *.json
+recursive-include achievements *.md
+recursive-include achievements *.png
+recursive-include achievements *.py
+recursive-include achievements *.svg
+recursive-include achievements *.txt
+recursive-exclude achievements *.pyc

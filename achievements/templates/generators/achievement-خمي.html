@@ -1,0 +1,106 @@
+{% extends "frappe/templates/web.html" %} {% block title %} معلومات الإنجاز {%
+endblock %} {% block style %}
+<style>
+  {% include "templates/includes/achievements/bootstrap-rtl.css" %}
+</style>
+<style>
+  {% include "templates/includes/achievements/details/style.css" %}
+</style>
+<style>
+  {% include "templates/includes/achievements/selectize.default.css" %}
+</style>
+<style>
+  {% include "templates/includes/achievements/flash.min.css" %}
+</style>
+{% endblock %} {% block page_content %}
+<div class="flash-container mt-4"></div>
+<input type="hidden" id="ach_id" value="{{ ach.name }}" />
+
+<br /><br />
+<h1 class="text-center mb-4">{{ ach.title }}</h1>
+<br />
+<div class="text-center">
+  <div class="body-ach p-4 rounded">
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <h5 class="font-weight-bold">نوع الإنجاز:</h5>
+        <h5>{{ ach.ach_type }}</h5>
+      </div>
+      <div class="col-md-6">
+        <h5 class="font-weight-bold">تاريخ الإنجاز:</h5>
+        <h5>{{ ach.date }}</h5>
+      </div>
+    </div>
+    <hr />
+
+    <div class="row mb-3">
+      <div class="col-md-6 text-center">
+        <h5 class="font-weight-bold">الهدف الإستراتيجي المرتبط بالإنجاز:</h5>
+        <h5>{{ ach.goal }}</h5>
+      </div>
+      <div class="col-md-6 text-center">
+        <h5 class="font-weight-bold">اسم المبادرة:</h5>
+        <h5>{{ ach.initiative }}</h5>
+      </div>
+    </div>
+    <hr />
+    <div class="row mb-3">
+      <div class="col-md-6 text-center">
+        <h5 class="font-weight-bold">اسم المشروع المرتبط بالإنجاز:</h5>
+        <h5>{{ ach.project }}</h5>
+      </div>
+      <div class="col-md-6 text-center">
+        <h5 class="font-weight-bold">طريقة قياس المنجز:</h5>
+        <h5>{{ ach.method }}</h5>
+      </div>
+    </div>
+    <hr />
+    <div class="row mb-3">
+      <div class="col-md-6 text-center">
+        <h5 class="font-weight-bold">الأثر المتوقع من هذا الإنجاز:</h5>
+        <h5>{{ ach.results }}</h5>
+      </div>
+      <div class="col-md-6 text-center">
+        <h5 class="font-weight-bold">
+          المستهدفات التي يساهم في تحقيقها هذا الإنجاز:
+        </h5>
+        <h5>{{ ach.targets }}</h5>
+      </div>
+    </div>
+  </div>
+  <br />
+  <div class="float-right">
+    <a
+      href="/achievements/new?name={{ ach.name }}"
+      class="btn btn-secondary ml-2"
+      data-toggle="tooltip"
+      data-placement="top"
+      title="تعديل"
+      ><i class="fas fa-pencil-alt text-white"></i
+    ></a>
+    <button
+      id="delete"
+      type="button"
+      class="btn btn-danger ml-2"
+      data-toggle="tooltip"
+      data-placement="top"
+      title="حذف"
+    >
+      <i class="fas fa-trash-alt"></i>
+    </button>
+  </div>
+  <div class="float-left">
+    <a href="/achievements" class="btn btn-primary mb-4" style="width: 150px;"
+      >العودة للإنجازات</a
+    >
+  </div>
+</div>
+{% endblock %} {% block script %}
+<script>
+  {% include "templates/includes/achievements/flash.min.js" %}
+</script>
+<script>
+  {% include "templates/includes/achievements/details/details_ach.js" %}
+</script>
+<script src="https://kit.fontawesome.com/3e0ed72be0.js"></script>
+{% endblock %}

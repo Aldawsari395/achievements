@@ -1,0 +1,202 @@
+{% extends "frappe/templates/web.html" %}
+{% block title %}
+التقرير الأسبوعي لإنجازات مبادرات المنظومة
+{% endblock %}
+
+{% block breadcrumbs %}
+{% include "templates/includes/breadcrumbs.html" %}
+{% endblock %}
+
+{% block style %}
+<style>
+  {% include "templates/includes/achievements/bootstrap-rtl.css" %}
+</style>
+<style>
+  {% include "templates/includes/achievements/form/style.css" %}
+</style>
+<style>
+  {% include "templates/includes/achievements/selectize.default.css" %}
+</style>
+<style>
+  {% include "templates/includes/achievements/flash.min.css" %}
+</style>
+{% endblock %}
+
+
+{% block page_content %}
+
+{% set options = {
+	"type_options": [	 
+    'تحقيق المبادرات الحيوية او اكتمال معالمها الرئيسة',
+    'تحقيق مستهدفات مؤشرات الاداء الرئيسية', 
+    'تدشين المرافق او المؤتمرات او ورش عمل او منصات والخدمات الالكترونية',
+    'عقد اتفاقيات أو شراكات ذات أهمية على مستوى البرنامج'
+  ],
+  "initiative_options": [	 
+      'تحفيز وتبني الابتكار الرقمي من خلال دعم الرايديين والشركات المحلية الرقمية',
+    'اطلاق برنامج شامل بهدف لنشر الوعي والمعرفة الرقمية وتأهيل كوادر وطنية ذات كفاءة عالية للدفع بعملية التحول الرقمي', 
+    'تهيئة بيئة مستدامة للنهوض بصناعة تقنية المعلومات والأتصالات ومواكبة التطورات المتسارعة'
+  ],
+  "targets_options": [	 
+    'عدد الكوادر السعودية التي يتم تدريبها تدريجيا في مجال الاتصالات وتقنية المعلومات',
+    'ترتيب المملكة العربية السعودية في مؤشر الابتكار العالمي',
+    'نسبة مساهمة المحتوى المحلي من ناتج تقنية المعلومات (GII)'
+  ]
+} %}
+
+<div class="container"><br><br>
+
+	<div class="flash-container mt-4">
+
+	</div>
+	
+  <h2 class="text-center">التقرير الأسبوعي لإنجازات مبادرات المنظومة</h1><br>
+  {% if ach %}
+  <h4 class="text-center">تعديل الإنجاز "{{ ach.title }}"</h1><br><br>
+  {% else %}
+  <h4 class="text-center">انشاء إنجاز جديد</h1><br><br>
+  {% endif %}
+
+  <form>
+    {% if ach %}
+    <input type="hidden" id="ach_id" name="ach_id" value="{{ ach.name }}">
+    {% endif %}
+
+    <div class="form-row">
+      <div class="form-group col-md-6 text-right">
+        <label for="ach-name">الإنجاز <font color="red">*</font></label>
+        <!-- <input id="ach-name" name="ach-name" type="text" value="{{ ach.title if ach else '' }}" maxlength="40" class="form-control" placeholder="" required> -->
+     <textarea id="ach-name" name="ach-name" value="{{ ach.title if ach else '' }}" rows="1" class="form-control" required></textarea>
+      </div>
+      <div class="form-group col-md-6 text-right">
+        <label for="ach-type">نوع الإنجاز <font color="red">* </font></label>
+        <select id="ach-type" name="ach-type" class="form-control" placeholder="اختر.." required>
+          <option value="" disabled selected>اختر..</option>
+        {% for option in options.type_options %}
+          <option {{ 'selected' if (ach and ach.ach_type == option) else '' }}>{{ option }}</option>
+			  {% endfor %}
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-2 text-right">
+        <label for="day">تاريخ الإنجاز <font color="red">*</font></label>
+        <select id="day" name="day" class="form-control" placeholder="اليوم" required>
+          <option value="" disabled selected>اليوم</option>
+          {% for n in range(30) %}
+            <option {{ 'selected' if (ach and ach.date.day == n+1) else '' }}>{{n+1}}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group col-md-2 text-right">
+        <label for="month"> </label>
+        <select id="month" name="month" class="form-control mt-2" placeholder="الشهر" required>
+          <option value="" disabled selected>الشهر</option>
+          {% for n in range(12) %}
+            <option {{'selected' if (ach and ach.date.month == n+1) else '' }}>{{n+1}}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group col-md-2 text-right">
+        <label for="year">⠀</label>
+        <select id="year" name="year" class="form-control" placeholder="السنة" required>
+          <option value="" disabled selected>السنة</option>
+          {% set today = frappe.utils.getdate(frappe.utils.today()) %}
+
+          {% for n in range(today.year,today.year+6) %}
+            <option {{ 'selected' if (ach and ach.date.year == n) else '' }}>{{n}}</option>
+          {% endfor %}
+        </select>
+      </div>
+		<div class="form-group col-md-6 text-right">
+				<label>الهدف الإستراتيجي المرتبط بالإنجاز <font color="red">*</font></label>
+				<div class="mt-2">
+				<div class="form-check-inline">
+				  <label class="form-check-label">
+					<input type="radio" class="form-check-input ml-1" name="goal" value="تنمية الاقتصاد الرقمي" checked>تنمية الاقتصاد الرقمي
+				  </label>
+				</div>
+			  </div>
+		</div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6 text-right">
+        <label for="initiative">اسم المبادرة <font color="red">*</font></label>
+        <select id="initiative" name="initiative" class="form-control" placeholder="اختر.." required>
+          <option value="" disabled selected>اختر..</option>
+			{% for option in options.initiative_options %}
+				<option {{ 'selected' if (ach and ach.initiative == option) else '' }}>{{ option }}</option>
+			{% endfor %}
+        </select>
+      </div>
+      <div class="form-group col-md-6 text-right">
+        <!-- <div id="project-control"></div> -->
+        <label for="project-control">اسم المشروع المرتبط بالإنجاز <font color="red">*</font></label>
+        <!-- <input id="project-control" type="text" placeholder="" required> -->
+        <select id="project-control" name="project" placeholder="يرجى اختيار المشروع المرتبط .." required>
+          <option></option>
+          {% for project in projects %}
+          <option {{ 'selected' if (ach and ach.project == project.name) else '' }}>{{project.name}}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+		<div class="form-group col-md-6 text-right">
+			<label for="none">طريقة قياس المنجز <font color="red">*</font></label>
+			<div class="mt-2">
+			<div class="form-check-inline">
+			  <label class="form-check-label">
+				<input type="radio" class="form-check-input ml-1" value="تراكمي" name="method" {{ checked if (ach and ach.method == 'تراكمي') else '' }} required>تراكمي
+			  </label>
+			</div>
+			<div class="form-check-inline">
+			  <label class="form-check-label">
+				<input type="radio" class="form-check-input ml-1" value="غير تراكمي" name="method" {{ checked if (ach and ach.method == 'غير تراكمي') else '' }}>غير تراكمي
+			  </label>
+			</div>
+		  </div>
+		</div>
+      <div class="form-group col-md-6 text-right">
+        <label for="targets">المستهدفات التي يساهم في تحقيقها هذا الإنجاز <font color="red">*</font></label>
+
+        <select id="targets" name="targets" class="form-control" placeholder="اختر.." required>
+          <option value="" disabled selected>اختر..</option>
+          {% for option in options.targets_options %}
+            <option {{ 'selected' if (ach and ach.targets == option) else '' }}>{{ option }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+    <div class="form-group text-right">
+      <label for="results">الأثر المتوقع من هذا الإنجاز <font color="red">*</font></label>
+      <input id="results" name="results" type="text" value="{{ ach.results if ach else '' }}" class="form-control" placeholder="" required>
+    </div><br>
+
+    <div class="text-right">
+      <button id="save" type="submit" name="{{ 'update' if ach else 'save' }}" class="btn btn-success ml-2" data-toggle="tooltip" data-placement="top"
+        title="حفظ"><i class="fas fa-save mt-1"></i></button>
+      {% if not ach %}
+      <button id="new" type="button" class="btn btn-secondary ml-2" data-toggle="tooltip" data-placement="top"
+        title="جديد"><i class="fas fa-plus mt-1 text-white"></i></button>
+      <button id="duplicate" name="save" type="submit" class="btn btn-warning ml-2" data-toggle="tooltip" data-placement="top"
+        title="حفظ وتكرار"><i class="fas fa-copy mt-1 text-white"></i></button>
+      {% endif %}
+
+      {% if ach %}
+      <button id="delete" type="button" class="btn btn-danger ml-2" data-toggle="tooltip" data-placement="top"
+        title="حذف"><i class="fas fa-trash-alt mt-1"></i></button>
+      {% endif %}
+		  <a id="list" class="btn btn-primary float-left" href="/achievements">عرض الانجازات</a>
+    </div>
+	
+  </form>
+</div>
+{% endblock %}
+
+{% block script %}
+	<script>{% include "templates/includes/achievements/flash.min.js" %}</script>
+	<script>{% include "templates/includes/achievements/selectize.min.js" %}</script>
+	<script>{% include "templates/includes/achievements/form/form_ach.js" %}</script>
+	<script src="https://kit.fontawesome.com/3e0ed72be0.js"></script>
+{% endblock %}

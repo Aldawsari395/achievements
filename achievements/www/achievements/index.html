@@ -1,0 +1,109 @@
+{% extends "frappe/templates/web.html" %} {% block title %} التقرير الأسبوعي
+لإنجازات مبادرات المنظومة {% endblock %} {% block breadcrumbs %} {% include
+"templates/includes/breadcrumbs.html" %} {% endblock %} {% block style %}
+<style>
+  {% include "templates/includes/achievements/bootstrap-rtl.css" %}
+</style>
+<style>
+  {% include "templates/includes/achievements/list/style.css" %}
+</style>
+<style>
+  {% include "templates/includes/achievements/selectize.default.css" %}
+</style>
+<style>
+  {% include "templates/includes/achievements/flash.min.css" %}
+</style>
+{% endblock %} {% block page_content %}
+<div class="flash-container mt-4"></div>
+<h1 class="text-center mt-5 mb-5">قائمة الإنجازات</h1>
+
+<button
+  id="button-a"
+  data-toggle="tooltip"
+  data-placement="top"
+  title="تصدير كملف إكسل"
+  class="btn btn-success my-2 float-right"
+  style="margin-left: 10px; margin-right:30px;"
+>
+  <i class="fas fa-file-excel mt-1 text-white"></i>
+</button>
+<button
+  id="delete"
+  type="button"
+  class="btn btn-danger text-center float-right my-2"
+  data-toggle="tooltip"
+  data-placement="top"
+  title="حذف"
+>
+  <i class="fas fa-trash-alt"></i>
+</button>
+<a
+  href="/achievements/new"
+  style="margin-left: 30px;"
+  class="btn btn-primary my-2"
+  style="margin-left: 30px;"
+  >اضافة انجاز جديد</a
+>
+<div class="overflow">
+  <div class="table-responsive">
+    <table id="mytable" class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col"></th>
+          <th scope="col">#</th>
+          <th scope="col">الإنجاز</th>
+          <th scope="col">نوع الإنجاز</th>
+          <th scope="col" width="12%">تاريخ الإنجاز</th>
+          <th scope="col">اسم المشروع المرتبط بالإنجاز</th>
+        </tr>
+      </thead>
+      {% for ach in achs %}
+      <tbody class="text-center">
+        <td scope="row">
+          <div class="custom-control custom-checkbox text-center">
+            <input
+              type="checkbox"
+              class="custom-control-input"
+              id="{{ ach.name }}"
+              name="ach_checkbox"
+              value="{{ ach.name }}"
+            />
+            <label class="custom-control-label" for="{{ ach.name }}"></label>
+          </div>
+        </td>
+        <td scope="row" class="text-center">{{ loop.index }}</td>
+        <!-- <td class="text-primary" data-href="/form_ach?name={{ach.name}}" data-toggle="tooltip" data-placement="top" title="أضغط للعرض او التعديل."><ins>{{ach.ach_name}}</ins></td> -->
+        <td
+          class="text-primary text-truncate"
+          style="max-width: 350px;""
+          data-toggle="tooltip"
+          data-placement="top"
+          title="أضغط للعرض او التعديل."
+        >
+          <a
+            class=""
+            href="/achievement/{{ ach.title }}"
+            target="__blank"
+            >{{ ach.title }}</a
+          >
+        </td>
+        <td>{{ ach.ach_type }}</td>
+        <td>{{ ach.date }}</td>
+        <td>{{ ach.project }}</td>
+      </tbody>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+{% endblock %} {% block script %}
+<script>
+  {% include "templates/includes/achievements/flash.min.js" %}
+</script>
+<script src="https://unpkg.com/xlsx@0.14.3/dist/xlsx.full.min.js"></script>
+<script src="http://cdn.jsdelivr.net/g/filesaver.js"></script>
+<script>
+  {% include "templates/includes/achievements/list/list_ach.js" %}
+</script>
+<script src="https://kit.fontawesome.com/3e0ed72be0.js"></script>
+
+{% endblock %}

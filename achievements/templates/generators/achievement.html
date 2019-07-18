@@ -1,0 +1,100 @@
+{% extends "frappe/templates/web.html" %} {% block title %} معلومات الإنجاز {%
+endblock %} {% block style %}
+<style>
+  {% include "templates/includes/achievements/bootstrap-rtl.css" %}
+</style>
+<style>
+  {% include "templates/includes/achievements/details/style.css" %}
+</style>
+<style>
+  {% include "templates/includes/achievements/selectize.default.css" %}
+</style>
+<style>
+  {% include "templates/includes/achievements/flash.min.css" %}
+</style>
+{% endblock %} {% block page_content %}
+<div class="flash-container mt-4"></div>
+<input type="hidden" id="ach_id" value="{{ ach.name }}" />
+<div class="container">
+  <br /><br />
+  <div class="text-center">
+    <table>
+      <thead>
+        <tr>
+          <th colspan="2">{{ ach.title }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>نوع الانجاز</strong></td>
+          <td>{{ ach.ach_type }}</td>
+        </tr>
+        <tr>
+          <td><strong>تاريخ الإنجاز</strong></td>
+          <td>{{ ach.date }}</td>
+        </tr>
+        <tr>
+          <td><strong>الهدف الإستراتيجي المرتبط بالإنجاز </strong></td>
+          <td>{{ ach.goal }}</td>
+        </tr>
+        <tr>
+          <td><strong>اسم المبادرة </strong></td>
+          <td>{{ ach.initiative }}</td>
+        </tr>
+        <tr>
+          <td><strong>اسم المشروع المرتبط بالإنجاز </strong></td>
+          <td>{{ ach.project }}</td>
+        </tr>
+        <tr>
+          <td><strong>طريقة قياس المنجز</strong></td>
+          <td>{{ ach.method }}</td>
+        </tr>
+        <tr>
+          <td><strong>الأثر المتوقع من هذا الإنجاز </strong></td>
+          <td>{{ ach.results }}</td>
+        </tr>
+        <tr>
+          <td>
+            <strong>المستهدفات التي يساهم في تحقيقها هذا الإنجاز </strong>
+          </td>
+          <td>{{ ach.targets }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="float-right">
+      <a
+        href="/achievements/new?name={{ ach.name }}"
+        class="btn btn-secondary ml-2"
+        data-toggle="tooltip"
+        data-placement="top"
+        title="تعديل"
+        ><i class="fas fa-pencil-alt text-white"></i
+      ></a>
+      <button
+        id="delete"
+        type="button"
+        class="btn btn-danger ml-2"
+        data-toggle="tooltip"
+        data-placement="top"
+        title="حذف"
+      >
+        <i class="fas fa-trash-alt"></i>
+      </button>
+    </div>
+    <div class="float-left">
+      <a href="/achievements" class="btn btn-primary mb-4" style="width: 150px;"
+        >العودة للإنجازات</a
+      >
+    </div>
+    <br />
+  </div>
+</div>
+{% endblock %} {% block script %}
+<script>
+  {% include "templates/includes/achievements/flash.min.js" %}
+</script>
+<script>
+  {% include "templates/includes/achievements/details/details_ach.js" %}
+</script>
+<script src="https://kit.fontawesome.com/3e0ed72be0.js"></script>
+{% endblock %}
