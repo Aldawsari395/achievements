@@ -136,7 +136,7 @@
         <select id="project-control" name="project" placeholder="يرجى اختيار المشروع المرتبط .." required>
           <option></option>
           {% for project in projects %}
-          <option {{ 'selected' if (ach and ach.project == project.name) else '' }}>{{project.name}}</option>
+          <option {{ 'selected' if (ach and ach.project == project.name) else '' }}>{{ project.name }}</option>
           {% endfor %}
         </select>
       </div>
